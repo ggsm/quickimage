@@ -17,6 +17,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
+import nu.psnet.quickimage.core.image.ImageDataLoader;
+
 /**
  * @author Per Salomonsson
  * 
@@ -149,7 +151,7 @@ public class ImageHolder {
 
 		ImageData data = null;
 		if (file != null) {
-			data = new ImageData(file.getAbsolutePath());
+			data = ImageDataLoader.loadImageData(file);
 		} else {
 			try {
 				data = new ImageData(storage.getContents());
@@ -187,7 +189,7 @@ public class ImageHolder {
 		if (thumb != null)
 			thumb.dispose();
 
-		ImageData data = new ImageData(file.getAbsolutePath());
+		ImageData data = ImageDataLoader.loadImageData(file);
 		float w = 0;
 		float h = 0;
 		boolean doscale = false;

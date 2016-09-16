@@ -10,7 +10,7 @@
             default="true"
             name="QuickImage Editor"
             id="nu.psnet.quickimage.editors.QuickImageEditor"
-            extensions="gif,jpg,jpeg,png,ico,bmp">
+            extensions="gif,jpg,jpeg,png,ico,bmp,afdesign">
       </editor>
    </extension>
 

@@ -20,7 +20,7 @@ public final class ImageDataLoader {
 	public static ImageData loadImageData(File file) {
 		for (ImageLoader loader : LOADERS) {
 			if (loader.handles(file)) {
-				
+				return loader.load(file);
 			}
 		}
 		

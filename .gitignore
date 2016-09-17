@@ -1,2 +1,8 @@
-
 .DS_Store
+*.bak
+*~
+bin
+target
+*.jar
+# GFMV generated
+.*.html

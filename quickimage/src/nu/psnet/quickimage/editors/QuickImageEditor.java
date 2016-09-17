@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -113,7 +115,9 @@ public class QuickImageEditor extends EditorPart {
 
 		ToolBar toolBar = new ToolBar(compos, SWT.FLAT);
 		toolBar.setLayoutData(toolbarData);
-
+		
+		registerKeyListeners();
+		
 		previous = new ToolItem(toolBar, SWT.FLAT);
 		previous.setToolTipText("Previous Image");
 		previous.setImage(new Image(parent.getDisplay(), iconsdir + "previous.gif"));
@@ -122,7 +126,7 @@ public class QuickImageEditor extends EditorPart {
 		next = new ToolItem(toolBar, SWT.FLAT);
 		next.setToolTipText("Next Image");
 		next.setImage(new Image(parent.getDisplay(), iconsdir + "next.gif"));
-
+		
 		rotate = new ToolItem(toolBar, SWT.FLAT);
 		rotate.setToolTipText("Rotate");
 		rotate.setImage(new Image(parent.getDisplay(), iconsdir + "rotate.gif"));
@@ -184,13 +188,13 @@ public class QuickImageEditor extends EditorPart {
 
 		previous.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				clickedPrevious(e);
+				previous();
 			}
 		});
 
 		next.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				clickedNext(e);
+				next();
 			}
 		});
 
@@ -253,6 +257,22 @@ public class QuickImageEditor extends EditorPart {
 		}
 	}
 
+	private void registerKeyListeners() {
+		manager.getImageCanvas().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.keyCode) {
+				case SWT.ARROW_LEFT:
+					previous();
+					break;
+				case SWT.ARROW_RIGHT:
+					next();
+					break;
+				}
+			}
+		});
+	}
+
 	public void dispose() {
 		manager.getImageOrganizer().dispose();
 		manager.getImageCanvas().dispose();
@@ -310,7 +330,11 @@ public class QuickImageEditor extends EditorPart {
 
 	}
 
-	private void clickedPrevious(SelectionEvent e) {
+	private void previous() {
+		if (!manager.getImageOrganizer().hasPrevious()) {
+			return;
+		}
+		
 		manager.getImageOrganizer().getPrevious();
 		manager.getImageCanvas().updateFullsizeData();
 		manager.getStatusCanvas().updateWithCurrent();
@@ -319,17 +343,17 @@ public class QuickImageEditor extends EditorPart {
 		next.setEnabled(manager.getImageOrganizer().hasNext());
 	}
 
-	private void clickedNext(SelectionEvent e) {
+	private void next() {
+		if (!manager.getImageOrganizer().hasNext()) {
+			return;
+		}
+
 		manager.getImageOrganizer().getNext();
 		manager.getImageCanvas().updateFullsizeData();
 		manager.getStatusCanvas().updateWithCurrent();
 		setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
 		previous.setEnabled(manager.getImageOrganizer().hasPrevious());
 		next.setEnabled(manager.getImageOrganizer().hasNext());
-		
-		
-		
-		
 	}
 
 	public void setPartName(String s) {

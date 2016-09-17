@@ -8,7 +8,7 @@ import java.nio.ByteOrder;
 
 class AFDesignParser {
 	private static final int THUMB_HEADER_PTR = 0x18;
-	private static final int THUMB_SIZE_OFFSET = 0x17;
+	private static final int THUMB_SIZE_OFFSET = 0x18;
 	private static final int THUMB_START_OFFSET = 0x1D;
 
 	private AFDesignParser() {

@@ -206,7 +206,7 @@ public class ImageOrganizer {
 }
 
 class ImageFileFilter implements FileFilter {
-	String[] patterns = new String[] { ".gif", ".jpeg", ".jpg", ".png", ".ico", ".bmp" };
+	String[] patterns = new String[] { ".gif", ".jpeg", ".jpg", ".png", ".ico", ".bmp", ".afdesign" };
 
 	public boolean accept(File f) {
 		for (int i = 0; i < patterns.length; i++) {

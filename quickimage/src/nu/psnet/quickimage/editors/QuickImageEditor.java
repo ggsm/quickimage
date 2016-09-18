@@ -6,8 +6,10 @@ package nu.psnet.quickimage.editors;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import nu.psnet.quickimage.QuickImagePlugin;
+import nu.psnet.quickimage.core.ImageHolder;
 import nu.psnet.quickimage.core.ImageOrganizer;
 import nu.psnet.quickimage.core.QManager;
 import nu.psnet.quickimage.util.LogUtil;
@@ -262,6 +264,12 @@ public class QuickImageEditor extends EditorPart {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.keyCode) {
+				case SWT.ARROW_UP:
+					up();
+					break;
+				case SWT.ARROW_DOWN:
+					down();
+					break;
 				case SWT.ARROW_LEFT:
 					previous();
 					break;
@@ -333,35 +341,55 @@ public class QuickImageEditor extends EditorPart {
 		manager.getImageCanvas().updateThumbData();
 
 	}
-
-	private void previous() {
-		if (!manager.getImageOrganizer().hasPrevious()) {
+	
+	private void navigate(int offset) {
+		ImageOrganizer organizer = manager.getImageOrganizer();
+		int nextIdx = organizer.getIndex() + offset;
+		
+		activate(nextIdx);
+		
+		manager.getImageCanvas().redraw();
+		previous.setEnabled(manager.getImageOrganizer().hasPrevious());
+		next.setEnabled(manager.getImageOrganizer().hasNext());
+	}
+	
+	private void activate(int next) {
+		ImageOrganizer organizer = manager.getImageOrganizer();
+		ImageHolder current = organizer.getCurrent();
+		ArrayList<ImageHolder> holders = organizer.getHolders();
+		
+		if (next >= 0 && next < holders.size()) {
+			ImageHolder holder = holders.get(next);
+			current.setSelected(false);
+			holder.setSelected(true);
+			
+			organizer.setSelectedToCurrent();
+			setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
+		}
+	}
+	
+	private void up() {
+		if (manager.getImageOrganizer().getActiveView() == ImageOrganizer.VIEW_FULLSIZE) {
 			return;
 		}
 		
-		manager.getImageOrganizer().getPrevious();
-		manager.getImageCanvas().updateFullsizeData();
-		manager.getStatusCanvas().updateWithCurrent();
-		setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
-		previous.setEnabled(manager.getImageOrganizer().hasPrevious());
-		next.setEnabled(manager.getImageOrganizer().hasNext());
-		
-		manager.getImageOrganizer().setCurrentToSelected();
+		navigate(-manager.getImageCanvas().getCols());
 	}
 
-	private void next() {
-		if (!manager.getImageOrganizer().hasNext()) {
+	private void down() {
+		if (manager.getImageOrganizer().getActiveView() == ImageOrganizer.VIEW_FULLSIZE) {
 			return;
 		}
 
-		manager.getImageOrganizer().getNext();
-		manager.getImageCanvas().updateFullsizeData();
-		manager.getStatusCanvas().updateWithCurrent();
-		setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
-		previous.setEnabled(manager.getImageOrganizer().hasPrevious());
-		next.setEnabled(manager.getImageOrganizer().hasNext());
-		
-		manager.getImageOrganizer().setCurrentToSelected();
+		navigate(manager.getImageCanvas().getCols());
+	}
+	
+	private void previous() {
+		navigate(-1);
+	}
+	
+	private void next() {
+		navigate(1);
 	}
 
 	public void setPartName(String s) {

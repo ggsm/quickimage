@@ -210,12 +210,8 @@ public class QuickImageCanvas extends Canvas {
 		{
 			Point thumbDim = organizer.getThumbWidth();
 
-			int cols = (clientw / organizer.getThumbWidth().x);
-			if (cols < 1)
-				cols = 1;
-			int rows = organizer.getCount() / cols;
-			if (organizer.getCount() > rows * cols)
-				rows++;
+			int cols = getCols();
+			int rows = getRows();
 
 			ArrayList<ImageHolder> holders = organizer.getHolders();
 			int index = 0;
@@ -238,7 +234,25 @@ public class QuickImageCanvas extends Canvas {
 		gc.drawImage(backImage, 0, 0);
 		backGC.dispose();
 	}
+	
+	public int getCols() {
+		ImageOrganizer organizer = manager.getImageOrganizer();
+		int cols = (clientw / organizer.getThumbWidth().x);
+		if (cols < 1)
+			cols = 1;
+		return cols;
+	}
 
+	public int getRows() {
+		int cols = getCols();
+		ImageOrganizer organizer = manager.getImageOrganizer();
+		int rows = organizer.getCount() / cols;
+		if (organizer.getCount() > rows * cols)
+			rows++;
+		
+		return rows;
+	}
+	
 	private void updateScrollVisibility() {
 		// only show when neccessary
 		getHorizontalBar().setVisible(clientw < imgw);

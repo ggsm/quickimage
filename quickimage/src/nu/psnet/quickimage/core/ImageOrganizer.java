@@ -94,6 +94,10 @@ public class ImageOrganizer {
 		return holders;
 	}
 
+	public int getIndex() {
+		return index;
+	}
+	
 	public ImageHolder getPrevious() {
 		if (holder(index).getFullsize() != null && !holder(index).getFullsize().isDisposed())
 			holder(index).getFullsize().dispose();

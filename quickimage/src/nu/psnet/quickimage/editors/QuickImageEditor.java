@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -213,14 +212,6 @@ public class QuickImageEditor extends EditorPart {
 			}
 		});
 
-		// parent.addDisposeListener(new DisposeListener() {
-		//
-		// public void widgetDisposed(DisposeEvent e)
-		// {
-		// disposeAll();
-		// }
-		// });
-
 		zoomIn.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				zoomFit.setSelection(false);
@@ -350,6 +341,8 @@ public class QuickImageEditor extends EditorPart {
 		setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
 		previous.setEnabled(manager.getImageOrganizer().hasPrevious());
 		next.setEnabled(manager.getImageOrganizer().hasNext());
+		
+		manager.getImageOrganizer().setCurrentToSelected();
 	}
 
 	private void next() {
@@ -363,6 +356,8 @@ public class QuickImageEditor extends EditorPart {
 		setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
 		previous.setEnabled(manager.getImageOrganizer().hasPrevious());
 		next.setEnabled(manager.getImageOrganizer().hasNext());
+		
+		manager.getImageOrganizer().setCurrentToSelected();
 	}
 
 	public void setPartName(String s) {

@@ -367,7 +367,12 @@ public class QuickImageEditor extends EditorPart {
 			setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
 			
 			manager.getStatusCanvas().updateWithCurrent();
-			manager.getImageCanvas().updateThumbData();
+			if (manager.getImageOrganizer().getActiveView() == ImageOrganizer.VIEW_FULLSIZE) {
+				manager.getImageCanvas().updateFullsizeData();
+			}
+			else {
+				manager.getImageCanvas().updateThumbData();
+			}
 		}
 	}
 	

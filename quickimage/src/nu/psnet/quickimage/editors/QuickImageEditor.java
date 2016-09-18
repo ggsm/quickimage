@@ -365,6 +365,9 @@ public class QuickImageEditor extends EditorPart {
 			
 			organizer.setSelectedToCurrent();
 			setPartName(manager.getImageOrganizer().getCurrent().getDisplayName());
+			
+			manager.getStatusCanvas().updateWithCurrent();
+			manager.getImageCanvas().updateThumbData();
 		}
 	}
 	

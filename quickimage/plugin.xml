@@ -10,8 +10,18 @@
             default="true"
             name="QuickImage Editor"
             id="nu.psnet.quickimage.editors.QuickImageEditor"
-            extensions="gif,jpg,jpeg,png,ico,bmp,afdesign">
+            extensions="gif,jpg,jpeg,png,ico,bmp">
       </editor>
+
+      <editor
+            class="nu.psnet.quickimage.editors.QuickImageEditor"
+            icon="icons/picture_affinity.png"
+            default="true"
+            name="QuickImage Editor"
+            id="nu.psnet.quickimage.editors.QuickImageEditorAffinity"
+            extensions="afdesign">
+      </editor>
+
    </extension>
 
 </plugin>

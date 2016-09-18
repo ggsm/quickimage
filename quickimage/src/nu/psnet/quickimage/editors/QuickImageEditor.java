@@ -268,6 +268,10 @@ public class QuickImageEditor extends EditorPart {
 				case SWT.ARROW_RIGHT:
 					next();
 					break;
+				case SWT.KEYPAD_CR:
+				case SWT.CR:
+					toggleView();
+					break;
 				}
 			}
 		});

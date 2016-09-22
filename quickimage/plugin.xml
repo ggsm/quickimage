@@ -10,18 +10,28 @@
             default="true"
             name="QuickImage Editor"
             id="nu.psnet.quickimage.editors.QuickImageEditor"
-            extensions="gif,jpg,jpeg,png,ico,bmp">
+            extensions="gif,jpg,jpeg,png,ico,bmp,afdesign">
       </editor>
 
-      <editor
-            class="nu.psnet.quickimage.editors.QuickImageEditor"
-            icon="icons/picture_affinity.png"
-            default="true"
-            name="QuickImage Editor"
-            id="nu.psnet.quickimage.editors.QuickImageEditorAffinity"
-            extensions="afdesign">
-      </editor>
 
    </extension>
+     <extension
+           point="org.eclipse.ui.decorators">
+        <decorator
+              class="nu.psnet.quickimage.decorator.ImageSourceFileDecorator"
+              id="nu.psnet.quickimage.decorator.ImageSourceFileDecorator"
+              label="Image source files"
+              lightweight="true"
+              state="true">
+           <enablement>
+              <objectClass
+                    name="org.eclipse.core.resources.IFile">
+              </objectClass>
+           </enablement>
+           <description>
+              Display a text decoration for image source files
+           </description>
+        </decorator>
+     </extension>
 
 </plugin>
